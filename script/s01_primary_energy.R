@@ -1,26 +1,58 @@
+############################
+#
+#
+# author  : Chris Yong
+# date    : 20/4/2025
+# preamble: obtain Botswana total energy supply for 
+#           figure 1 of paper
+# 
+# source  : https://au-afrec.org/botswana; 
+#           https://www.iea.org/countries/botswana/energy-mix
+#
+#
+############################
+
+
+#                                  #
+#                                  #
+#             LIBRARY              #
+#                                  #
+####################################
 library(tidyverse)
+
+#                                  #
+#                                  #
+#            GET DATA              #
+#                                  #
+####################################
+
+# copy data from first source
 year = seq(2018, 2022, 1)
 coal = c(641, 1892, 1414, 1551, 1910)
 oil = c(1043, 1110, 1201, 1301, 997)
-biofuel = c(981, 677, 770, 726, 799)
+biofuel = c(981, 677, 770, 726, 799) # biofuel for 2020 used second source as significant outlier
 imported_electricity = c(115, 95, 180, 120, 158)
 renewable = c(67, 75, 43, 85, 90)
 
+# prepare for ggplot captions
 source <-  'https://au-afrec.org/botswana; https://www.iea.org/countries/botswana/energy-mix'
-  
+
+# initiate tibble
 df_energy <- tibble(year, 
                     coal, 
                     oil,
                     biofuel, 
-                    # imported_electricity, 
+                    # imported_electricity, # commented out to perform analysis for primary energy sources 
                     renewable)
-  
+
+# obtain proporion of each energy source for per year 
 df_analysis <- df_energy |>
   mutate(total=coal+oil+biofuel+renewable) |>
   reframe(across(c(coal:renewable), 
                 function (x) paste0(round(x/total*100, 1),'%'),
                 .names='{.col}_prop'))
 
+# pivot longer and convert to Mtoe from ktoe
 df_energy_clean <- df_energy |>
   pivot_longer(cols=coal:renewable,
                names_to='Group') |>
@@ -29,6 +61,13 @@ df_energy_clean <- df_energy |>
   mutate(Value = Value/1000)
 
 
+#                                  #
+#                                  #
+#             PLOT                 #
+#                                  #
+####################################
+
+# define function for plotting reusability
 getplot <- function(df, group_name, plot_title, 
                     source, covid_y, plot_breaks,
                     sign, y_axis_label) {
@@ -85,7 +124,7 @@ getplot <- function(df, group_name, plot_title,
   return(plot)
 }
 
-
+# use function
 energy_source_plot <- getplot(df_energy_clean, 
         'Energy Source',
         'Botswana Energy Sources', 
@@ -96,4 +135,10 @@ energy_source_plot <- getplot(df_energy_clean,
         'total energy supply (Mtoe)')
 energy_source_plot
 
-ggsave('energy_source_plot.png',plot=energy_source_plot, width=9, height=7,dpi=600)
+
+#                                  #
+#                                  #
+#           SAVE DATA              #
+#                                  #
+####################################
+ggsave('../others/energy_source_plot.png',plot=energy_source_plot, width=9, height=7,dpi=600)

@@ -1,26 +1,29 @@
+############################
+#
+#
+# author  : Chris Yong
+# date    : 20/4/2025
+# preamble: obtain Botswana total secondary source by fuel  
+#           type for figure 2 of paper
+# 
+# source  : https://www.iea.org/countries/botswana/electricity
+#
+#
+############################
+
+
+#                                  #
+#                                  #
+#             LIBRARY              #
+#                                  #
+####################################
 library(tidyverse)
 
-# # https://au-afrec.org/botswana data
-# coal_produced <- c(593, 1879, 1335,1470, 1805)
-# imported <- c(115, 95, 180, 120, 158)
-# year <- seq(2018, 2022, 1)
-
-# df_electricity <- tibble(Year=year, 
-#                          coal_produced, 
-#                          imported, 
-#                          # total=coal_produced + imported
-#                          )
-
-# df_analysis <- df_electricity |>
-#   mutate(total = coal_produced + imported) |>
-#   reframe(across(c(coal_produced, imported), 
-#                  function (x) paste0(round(x/total*100, 1), '%'),
-#                  .names='{.col}_prop')) |>
-#   mutate(year=seq(2018,2022,1), .before=coal_produced_prop)
-
-# df_analysis
-
-# https://www.iea.org/countries/botswana/electricity
+#                                  #
+#                                  #
+#            READ DATA             #
+#                                  #
+####################################
 df_electricity <- read_csv('../data/electricity.csv',) |>
   rename(Group = `electricity generation sources in Botswana`) |>
   filter(Year >= 2018) |>
@@ -28,12 +31,19 @@ df_electricity <- read_csv('../data/electricity.csv',) |>
   mutate(Value = ifelse(is.na(Value), 0, Value))
 df_electricity
 
-# analysis
+
+#                                  #
+#                                  #
+#            ANALYSES              #
+#                                  #
+####################################
+
+# clean for analyses
 df_total <- df_electricity |>
   pivot_wider(names_from=Group, values_from = Value) |>
   mutate(total = Coal+Oil+`Solar PV`)
 
-# analysis 1: percentage increase in electricity
+# analysis 1: percentage increase in electricity since covid
 orig <- df_total$total[3]
 new <- df_total$total[5]
 formatted <-'Percentage increase in electricity\n----------------------------------\n' 
@@ -47,14 +57,18 @@ df_prop_source <- df_total |>
 df_prop_source
 
 
-
+#                                  #
+#                                  #
+#             PLOT                 #
+#                                  #
+####################################
 
 electricity_plot <- df_electricity |>
   mutate(Group = paste(tolower(Group), 'produced')) |>
   ggplot(aes(x=Year, y=Value, fill=Group)) +
   geom_area(alpha=0.3, position='stack', 
             show.legend = FALSE) +
-  geom_point(aes(shape=Group, color=Group),stroke=1.2, 
+  geom_point(aes(shape=Group, color=Group),stroke=1.2, # makes shape thicker
              position='stack', size=3) +
   theme_minimal() +
   theme(panel.grid.major=element_blank()) +
@@ -69,8 +83,8 @@ electricity_plot <- df_electricity |>
   xlab('') +
   theme(panel.grid.minor=element_blank(),
         panel.grid.major = element_line(
-          color = "gray80",  # Darker gray (adjust as needed)
-          linewidth = 0.5,   # Slightly thicker
+          color = "gray80",
+          linewidth = 0.5,
           linetype = "solid"
         ),
         panel.grid.major.x=element_blank(),
@@ -111,5 +125,9 @@ electricity_plot <- df_electricity |>
   ) 
 electricity_plot
 
-# save plot
-ggsave('electricity_plot.png',plot=electricity_plot, width=9, height=7,dpi=600)
+#                                  #
+#                                  #
+#           SAVE DATA              #
+#                                  #
+####################################
+ggsave('../others/electricity_plot.png',plot=electricity_plot, width=9, height=7,dpi=600)
