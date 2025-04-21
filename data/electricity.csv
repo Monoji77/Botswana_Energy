@@ -1,0 +1,70 @@
+"electricity generation sources in Botswana",Value,Year,Units
+"Coal",1113,2000, GWh
+"Coal",1105,2001, GWh
+"Coal",1117,2002, GWh
+"Coal",1013,2003, GWh
+"Coal",923,2004, GWh
+"Coal",1046,2005, GWh
+"Coal",977,2006, GWh
+"Coal",822,2007, GWh
+"Coal",697,2008, GWh
+"Coal",621,2009, GWh
+"Coal",532,2010, GWh
+"Coal",437,2011, GWh
+"Coal",250,2012, GWh
+"Coal",760,2013, GWh
+"Coal",2213,2014, GWh
+"Coal",2859,2015, GWh
+"Coal",2680,2016, GWh
+"Coal",3011,2017, GWh
+"Coal",3433,2018, GWh
+"Coal",3227,2019, GWh
+"Coal",2122,2020, GWh
+"Coal",2309,2021, GWh
+"Coal",2451,2022, GWh
+"Oil",27,2000, GWh
+"Oil",24,2001, GWh
+"Oil",29,2002, GWh
+"Oil",29,2003, GWh
+"Oil",51,2004, GWh
+"Oil",6,2005, GWh
+"Oil",6,2006, GWh
+"Oil",6,2007, GWh
+"Oil",,2008, GWh
+"Oil",,2009, GWh
+"Oil",,2010, GWh
+"Oil",41,2011, GWh
+"Oil",100,2012, GWh
+"Oil",162,2013, GWh
+"Oil",99,2014, GWh
+"Oil",107,2015, GWh
+"Oil",6,2016, GWh
+"Oil",7,2017, GWh
+"Oil",5,2018, GWh
+"Oil",,2019, GWh
+"Oil",54,2020, GWh
+"Oil",94,2021, GWh
+"Oil",91,2022, GWh
+"Solar PV",,2000, GWh
+"Solar PV",,2001, GWh
+"Solar PV",,2002, GWh
+"Solar PV",,2003, GWh
+"Solar PV",,2004, GWh
+"Solar PV",,2005, GWh
+"Solar PV",,2006, GWh
+"Solar PV",,2007, GWh
+"Solar PV",,2008, GWh
+"Solar PV",,2009, GWh
+"Solar PV",,2010, GWh
+"Solar PV",,2011, GWh
+"Solar PV",1,2012, GWh
+"Solar PV",2,2013, GWh
+"Solar PV",3,2014, GWh
+"Solar PV",3,2015, GWh
+"Solar PV",5,2016, GWh
+"Solar PV",5,2017, GWh
+"Solar PV",5,2018, GWh
+"Solar PV",5,2019, GWh
+"Solar PV",5,2020, GWh
+"Solar PV",6,2021, GWh
+"Solar PV",6,2022, GWh
